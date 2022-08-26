@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>TechShop</title>
-        <meta charset="UTF-8">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://wwww.thymeleaf.org" 
+      xmlns:sec="http://thymeleaft.org/extras/spring-security">
+   <head th:replace="layout/plantilla :: head">
+        <title>Inicio</title>
     </head>
     <body>
-        <h1>Listado de Cliente </h1>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Correo</th>
-                    <th>Telefono</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="cliente : ${clientes}">
-                    <td th:text = "${cliente.nombre}"></td>
-                    <td th:text = "${cliente.apellidos}"></td>
-                    <td th:text = "${cliente.correo}"></td>
-                    <td th:text = "${cliente.telefono}"></td>
-                </tr>
-            </tbody>
-        </table>
-
-      
-    </body>
+        <header th:replace="layout/plantilla :: header"/>
+        <div class="contenido"> 
+            <h2 th:text="#{index.titulo}">Nuestros_Articulos</h2>
+            <div th:if="${articulos != null and !articulos.empty}">
+                <table border="1">  
+                   <thead>
+                    <tr>
+                        <th th:text="#{articulo.descripcion}">Descripcion</th>
+                        <th th:text="#{articulo.precio}">Precio</th>
+                        <th th:text="#{articulo.comprar}">Compra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr th:each="articulo : ${articulos}">
+                            <td th:text="${articulo.descripcion}"></td>
+                            <td th:text="${articulo.precio}"></td> 
+                            <td> <a th:href="@{/carrito/agregar/} + ${articulo.idArticulo}"
+                                   th:text="#{accion.agregar}">Agregar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${articulos == null or articulos.empty}">
+                 <p th:text="@{articulo.no_mostrar}">No tenemos articulos que mostrar...</p>
+            </div>
+        </div>
+        <footer th:replace="layout/plantilla :: footer"/>
+        </body>
 </html>
